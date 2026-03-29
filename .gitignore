@@ -1,7 +1,10 @@
 venv/
 __pycache__/
-data/
-*.pyc 
-.env
-.DS_Store
-.vscode/
+*.pyc
+data/raw/
+data/processed/
+data/chroma_db/
+mlruns/
+airflow.db
+*.pid
+logs/
