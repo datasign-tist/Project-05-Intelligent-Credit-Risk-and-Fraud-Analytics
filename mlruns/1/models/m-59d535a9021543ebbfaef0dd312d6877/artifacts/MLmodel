@@ -1,0 +1,29 @@
+artifact_path: /Users/abhisheksharma/Documents/Data Science Projects/Project-05-Intelligent-Credit-Risk-&-Fraud-Analytics/mlruns/1/models/m-59d535a9021543ebbfaef0dd312d6877/artifacts
+flavors:
+  python_function:
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.tensorflow
+    python_version: 3.11.7
+  tensorflow:
+    code: null
+    data: data
+    keras_version: 2.15.0
+    model_type: keras
+    save_format: tf
+is_signature_from_type_hint: false
+mlflow_version: 3.10.1
+model_id: m-59d535a9021543ebbfaef0dd312d6877
+model_size_bytes: 183526
+model_uuid: m-59d535a9021543ebbfaef0dd312d6877
+prompts: null
+run_id: e29b349b4b7d47ddb44424d060399e90
+signature:
+  inputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float64", "shape": [-1, 3]}}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float32", "shape": [-1,
+    1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-03-29 08:18:03.557262'
