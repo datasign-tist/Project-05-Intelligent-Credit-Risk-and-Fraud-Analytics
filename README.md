@@ -48,3 +48,26 @@ credit-risk-platform/
 │       └── retriever.py           # LangChain vector embedding and document retrieval
 ├── requirements.txt
 └── README.md
+
+
+## 🚀 Independent Execution GuideFollow these steps to replicate the environment and run the full pipeline on your local machine.
+
+1. PrerequisitesEnsure your system has the following installed:Python 3.11+Java 11 (Required for PySpark Structured Streaming)Homebrew (To manage Kafka and Zookeeper on macOS)
+2. Environment SetupClone the repository and initialize a clean virtual environment to avoid dependency conflicts with global packages.Bashgit clone <your-repository-url>
+cd Project-05-Intelligent-Credit-Risk-&-Fraud-Analytics
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+3. Start Background InfrastructureThis project is a distributed system that requires Kafka, MLflow, and Airflow to be active. Open three separate terminal tabs and ensure the (venv) is active in each:Tab 1: Kafka & ZookeeperBash# Start the message brokers
+brew services start zookeeper
+brew services start kafka
+Tab 2: MLflow Tracking ServerBash# Start the experiment dashboard
+mlflow ui --port 5000
+Tab 3: Apache Airflow (Orchestrator)Bash# Initialize and start the DAG scheduler
+export AIRFLOW_HOME=$(pwd)
+export AIRFLOW__WEBSERVER__WEB_SERVER_PORT=8085
+airflow db migrate
+airflow standalone
+4. Running the PipelineOpen your browser and navigate to the Airflow UI: http://localhost:8085.Login using the credentials (admin/password) generated in Tab 3.Locate the fraud_detection_retraining_pipeline DAG.Unpause: Click the toggle switch on the left (it should turn blue).Trigger: Click the Play (▶️) button on the right and select Trigger DAG.Monitor the execution in the Graph View.5. Verifying the MLOps LifecycleData Ingestion: Verify a new origination_data.csv is created in data/raw/.Experiment Tracking: Visit http://localhost:5000 to view the TensorFlow training metrics, loss curves, and model weights automatically logged by MLflow.Inference/RAG: Test the compliance assistant via the command line:Bashpython src/rag/retriever.py --query "What are the risk parameters for Tier 1 applicants?"
+🛠 Troubleshooting & Environment FixesDuring the development of this platform on macOS, the following environment-specific fixes were implemented to ensure stability:IssueResolutionPort 8080 ConflictAirflow defaults to 8080, which often conflicts with Mac system services or Java apps. The project is hard-coded to use 8085.Protobuf ClashTensorFlow 2.16+ requires protobuf>=6.31.1. If ImportError occurs, run pip install --upgrade protobuf.TensorBoard MissingMLflow autologging requires TensorBoard for scalar tracking. Ensure it is installed via pip install tensorboard.Ghost ProcessesIf Airflow fails to start, run pkill -9 -f "airflow" to clear orphaned background processes.
